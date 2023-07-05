@@ -7,6 +7,10 @@ assignees: ''
 
 ---
 
+**Editor version**
+
+**OS**
+
 **Description**
 
 **Steps to reproduce (if applicable)**
