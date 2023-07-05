@@ -7,6 +7,10 @@ assignees: ''
 
 ---
 
+**Editor version**
+
+**OS**
+
 **Bug description**
 
 **Repro case (if applicable)**
