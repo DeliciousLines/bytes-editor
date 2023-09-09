@@ -1,0 +1,53 @@
+$comment_or_uncomment_line: () = {
+    cursor_offset := get_cursor_offset();
+    
+    line_start := get_line_start(cursor_offset);
+    line_end   := get_line_end(cursor_offset);
+    
+    tokens := get_tokens();
+    
+    
+    // Get the first non-whitespace token on the line. START
+    token := line_start;
+    
+    for line_start.index, line_end.index #step, <= {
+        token = tokens[it];
+        if !(token.type & .WHITESPACE): break;
+    }
+    // Get the first non-whitespace token on the line. END
+    
+    
+    if !(token.type & .SINGLE_LINE_COMMENT) { // Comment this line.
+        single_line_comment := get_single_line_comment_from_tokenisation_hints();
+        insert_text_at(single_line_comment, line_start.offset_in_data);
+    }
+    else { // Uncomment this line.
+        delete_at(token.offset_in_data, token.count);
+    }
+};
+
+$go_to_next_underscore: () = {
+    cursor_offset := get_cursor_offset();
+    
+    token  := get_token_at_offset(cursor_offset);
+    tokens := get_tokens();
+    
+    for token.index, tokens.count {
+        token = tokens[it];
+        
+        if token.type & (.WORD | .NUMBER) {
+            text := get_token_text(token);
+            
+            for text -> c, char_index {
+                global_offset := token.offset_in_data + char_index;
+                
+                if global_offset <= cursor_offset: continue;
+                
+                if c == "_" {
+                    set_cursor_offset(global_offset);
+                    return; // We found a suitable underscore, we can stop searching.
+                }
+            }
+        }
+    }
+};

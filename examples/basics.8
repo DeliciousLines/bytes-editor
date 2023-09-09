@@ -1,0 +1,71 @@
+/*
+
+======================
+**** Introduction ****
+======================
+This editor's goal is to let you control its behaviour in the least restrictive way possible and also to keep things as simple and unified as possible.
+We do not want you to deal with regex soup, 3 different formats to store settings, external toolchains and hope everything is fast enough in the end.
+In order to solve this problem we let you program the editor through a single layer that directly runs on your CPU. This custom layer is used for everything,
+from settings to themes, to syntax highlighting and to text insertion and navigation.
+
+
+==========================
+**** The custom layer ****
+==========================
+The custom layer is controlled using a programming language that is statically checked and compiled to machine code for greater efficiency. We will try to help
+you learn how to use this language to control the editor's behaviour throughout these examples (for now we assume you have some programming experience).
+The editor accesses the custom layer from a file named custom.8 that is placed in the same folder as the editor executable. The code to interface with the editor
+is contained in api.8; this file is automatically injected by the compiler so that you do not need to explicitly include it in the code base.
+
+
+================
+**** Tokens ****
+================
+To help you parse text the editor preanalyses it and makes tokens out of it. You can think of a token as a chunk of text with some useful information.
+For example, consider the following text: if a == 0.5
+The editor will make a token for 'if', one token for every whitespace, one token for 'a', one for '==' and one for '0.5'.
+
+This lets you focus on bigger chunks of text instead of having to go through every character.
+Every token is given a type, like NUMBER for instance which indicates that a particular token is a number.
+Tokens can be useful in two main ways: you can easily parse text and assign a colour to every token to do syntax highlighting and you can also move the cursor
+around or insert text very easily using tokens to quickly navigate text.
+
+
+=============================
+**** Custom layer blocks ****
+=============================
+A custom layer handles three aspects: settings, syntax highlighting and navigation/text-editing.
+As a result there are three different blocks of code executed for each of these.
+
+Make sure to check declarations.8, complex_types.8, flow_control.8 and sub_programs.8 to familiarise yourself with the language basics.
+Also check api.8 which contains the API reference and lets you interface with the editor.
+
+*/
+
+#on_load {
+    /*
+    
+    This block is executed every time the custom layer is loaded/reloaded. This is were you typically store and set settings.
+    For more information check the on_load.8 file.
+    
+    */
+}
+
+#syntax {
+    /*
+    
+    This block is executed every time the editor needs to update syntax highlighting.
+    For more information check the syntax.8 file.
+    
+    */
+}
+
+#events {
+    /*
+    
+    This block is executed every time events happen in the editor (key strokes for the most part). You can use these events to navigate through the editor or
+    through a text file.
+    For more information check the events.8 file.
+    
+    */
+}

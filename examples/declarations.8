@@ -1,0 +1,66 @@
+$example_declarations: () = {
+    // Simple variable declaration:
+    a := 0;
+    
+    // Simple variable declaration with an explicit type:
+    b: String = "Hey!";
+    
+    // Simple variable declaration with a default value of 0:
+    c: s64;
+    
+    // Simple variable declaration with no default value:
+    d: s64 = ?;
+    
+    // Simple constant declaration:
+    $e := 0;
+    
+    
+    // Declaring an array of something:
+    f: [] u32;
+    
+    // Now with a value:
+    g := u32.[0, 1, 2, 3, 4];
+    
+    // You can also do it like this:
+    h: [] u32 = .[0, 1, 2, 3, 4];
+    
+    // If you want an array with a certain number of items do the following:
+    i: [4] u32; // This declares an array that contains 4 items of type u32.
+    i[2] = 4;
+    
+    // You can access the number of items in the array like this:
+    num_items  := h.count;
+    
+    // And the data memory address like that:
+    array_data := h.data;
+    
+    
+    // Declaring a memory address of something:
+    address: @ s64;
+    
+    // Taking the memory address of something:
+    address = @num_items;
+    
+    
+    /*
+    **** List of basic types ****
+    
+    Integers:
+    - u8:  8-bit unsigned integer.
+    - u16: 16-bit unsigned integer.
+    - u32: 32-bit unsigned integer.
+    - u64: 64-bit unsigned integer.
+    - s8:  8-bit signed integer.
+    - s16: 16-bit signed integer.
+    - s32: 32-bit signed integer.
+    - s64: 64-bit signed integer.
+    - b8:  8-bit boolean.
+    
+    Reals:
+    - f32: 32-bit floating point number.
+    
+    Others:
+    - String
+    - []
+    */
+};

@@ -1,0 +1,146 @@
+$example_complex_types: () = {
+    /*
+    =================
+    **** Structs ****
+    =================
+    */
+    
+    // You can declare a struct in the following way:
+    $Our_Colour: #struct = {
+        red:   f32;
+        green: f32 = 1;
+        blue:  f32;
+    };
+    
+    // Here default values are used to initialise colour. colour.red is 0, colour.green is 1 and colour.blue is 0.
+    some_colour: Our_Colour;
+    
+    // Here we give explicit values to initialise the variable with.
+    another_colour := Our_Colour.{red = 0.2, green = 0.3, blue = 0.4};
+    
+    // If you want to set specific values for certain members only you can do the following:
+    another_colour = .{blue = 0.2}; // Here all members except for blue are initialised to their default values.
+    
+    // By the way, you are not required to specify a member's name to set its value:
+    another_colour = .{0.1, 0.2, 0.3};
+    
+    
+    
+    // **** #using ****
+    // You can also do some convenient things when declaring structs:
+    $Transparent_Colour: #struct = {
+        #using base_colour: Colour; // The #using directive tells the compiler to bring all members from the Colour struct into this one.
+        alpha: f32;
+    };
+    
+    full_colour: Transparent_Colour;
+    red_value   := full_colour.r; // Now you can directly access Colour members.
+    base_colour := full_colour.base_colour; // You can still access the base_colour member in the usual way.
+    
+    
+    
+    // **** Unions ****
+    // Sometimes you want to optimise memory usage in a struct and want several members to share the same memory. You can do so using unions:
+    $Number: #struct = {
+        #union { // All of the following members share the same offset within the struct.
+            _f32: f32;
+            _u64: u64;
+            _s64: s64;
+        }
+    };
+    
+    number: Number;
+    number._f32 = 0.3;
+    number._u64 = 45; // This overwrites the value stored in the '_f32' member.
+    
+    
+    // If you want to group several members together into an inner struct within a union, you can do the following:
+    $Number2: #struct = {
+        #union {
+            _f32: f32;
+            _u64: u64;
+            
+            #struct {
+                u128_low:  u64;
+                u128_high: u64;
+            }
+        }
+    };
+    
+    number2: Number2;
+    number2.u128_high = 0xff;
+    
+    
+    
+    /*
+    ===============
+    **** Enums ****
+    ===============
+    */
+    
+    // You can declare an enum the following way:
+    $Values: #enum u32 = { // u32 indicates that we want an enum which values are to be treated as 32-bit unsigned integers.
+        $A := 0;
+        $B; // To calculate this value the compiler takes the last value and increments it by one. The last value here is $A so $B = $A + 1.
+        $C;
+        $D;
+    };
+    
+    // Note that you cannot make an enum that is derived from a non-integer type.
+    // Also note that you cannot have duplicate values in an enum.
+    
+    // Example declarations:
+    v := Values.A;
+    v2: Values = .B;
+    
+    
+    // If you want to use enum members as flag values you can use #enum_flags instead:
+    $Flag_Values: #enum_flags u32 = {
+        $A := 0x01;
+        $B := 0x02;
+        $C;
+        $D;
+    };
+    
+    // #enum_flags will check the values to make sure they are valid flag values (at most one bit must be set).
+    
+    
+    // By default you can have duplicate values in enums. If you want to enforce unique values, you can use the #unique_values directive like this:
+    $More_Values: #enum u8 = #unique_values {
+        $A := 1;
+        $B := 2;
+        //$C := 2; // If you uncomment this you will get an error because the value '2' is already used by member 'B'.
+    };
+    
+    
+    
+    /*
+    ==============
+    **** Type ****
+    ==============
+    */
+    
+    // You can also use types as values:
+    $int := s64;
+    a: int = 45;
+    
+    
+    
+    /*
+    ==========================
+    **** Type information ****
+    ==========================
+    */
+    
+    // Get the type of an identifier:
+    type_of_a := #type_of(a);
+    
+    // Get the size of the type of anything.
+    size := #size_of(a);
+    
+    // For literals this returns the size of the literal.
+    size = #size_of(45);
+    
+    // If you want to avoid confusion, do this:
+    size = #size_of(#type_of(a));
+};

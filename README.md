@@ -5,3 +5,5 @@ https://deliciouslines.com/bytes
 
 # Feedback
 Feel free to open an issue if you want to report a bug or make a suggestion.
+
+# Customisation ExamplesYou can check up-to-date ``examples`` from the examples folder.

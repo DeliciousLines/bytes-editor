@@ -1,0 +1,115 @@
+$example_flow_control: () = {
+    /*
+    ======================
+    **** if statement ****
+    ======================
+    */
+    
+    a := 45;
+    b: u64;
+    c := "Hello!";
+    
+    if a == 2 {
+        b = 4;
+    }
+    else if c: b = 1; // Here the implicit condition is c.count != 0.
+    else {
+        b = 2;
+    }
+    
+    
+    /*
+    ==========================
+    **** switch statement ****
+    ==========================
+    */
+    
+    switch c {
+        "Hey!": b = 45;
+        
+        "Hi!" {
+            b = 2;
+            a = b;
+        } #no_break // Note that by default there are implicit breaks in switch statements. I fyou do not want a break, use #no_break like this.
+        
+        : b = 4; // This is the default behaviour if all other conditions fail.
+    }
+    
+    // Sometimes you may want to switch on enum values. If you want to make sure that you do not miss an enum value (especially if you update the enum over time)
+    // use the #all_values directive:
+    
+    $Some_Enum: #enum u8 = {
+        $A;
+        $B;
+        $C;
+    };
+    
+    enum_value := Some_Enum.A;
+    
+    switch #all_values enum_value {
+        // If you comment one of these three lines the compiler will output an error because that would mean not all enum values are handled!
+        .A: a = 2;
+        .B: a = 3;
+        .C: a = 5;
+        
+        : a = 0; // Note that specifying a default behaviour still requires the switch statement to handle all enum values.
+    }
+    
+    
+    /*
+    ============================
+    **** break and continue ****
+    ============================
+    */
+    
+    a = 0;
+    while 1 {
+        a++;
+        
+        if a == 4: break;
+        if a == 2: continue;
+        
+        b++;
+    }
+    
+    
+    /*
+    ==================
+    **** for loop ****
+    ==================
+    */
+    
+    for 8: a++; // Loop 8 times.
+    
+    array := u32.[0, 1, 2, 3, 4];
+    
+    for 2, 0: a = array[it]; // Loop backwards.
+    
+    for array #step 2: a += it; // Skip one item every on every iteration. 'it' is an implicit variable that refers to the item.
+    
+    for array #step, >= -> number, number_index {
+        // Go backwards and use 'number' and 'number_index' instead of 'it' and 'it_index' to refer to an item and its index.
+        for array: a = number + it;
+    }
+    
+    
+    /*
+    =========================
+    **** defer directive ****
+    =========================
+    */
+    
+    // Sometimes you want to execute a piece of code at every exit point of a scope. The #defer directive lets you do just that.
+    
+    {
+        #defer: a = 3; // This is executed at the end of this anonymous scope.
+        a = 2;
+    }
+    
+    for 8 {
+        #defer: b = a; // This is executed at the end of the loop scope and before the break instruction.
+        
+        a += 2;
+        if a == 5: break;
+    }
+};

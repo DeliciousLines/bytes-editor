@@ -1,0 +1,28 @@
+#events {
+    /*
+    
+    As mentioned in basics.8 this block is executed every time there are new events in the editor. Most events concern key strokes.
+    This is where you typically edit text and navigate through the editor.
+    
+    The example below is a simple one for brevity's sake, if you want a real example check the default custom layer.
+    
+    */
+    
+    
+    // First we want to retrieve the new events.
+    events := get_events();
+    
+    // We iterate on the events and handle them.
+    for events {
+        if it.type & .KEY_DOWN {
+            switch it.key {
+                .A {
+                    if it.flags & .CTRL_IS_PRESSED: log("Hey!");
+                }
+            }
+        }
+        else if it.type & .CHARACTER {
+            insert_character(it.character);
+        }
+    }
+}

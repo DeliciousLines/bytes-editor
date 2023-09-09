@@ -1,0 +1,20 @@
+$example_sub_programs: () = {
+    
+    // Sub-programs can be declared the following ways:
+    // <sub-program name>: (<optional parameters>)                  = {<block of code associated with the sub-program>};
+    // <sub-program name>: (<optional parameters>) -> <return type> = {<block of code associated with the sub-program>};
+    
+    $f: () -> s64 = {
+        return 45;
+    };
+    
+    a := f();
+    
+    
+    $g: (s := "Hey!") = {
+        log(s);
+    };
+    
+    g("Hello!");
+    g(); // Here the default parameter value is used.
+};

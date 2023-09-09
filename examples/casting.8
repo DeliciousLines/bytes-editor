@@ -1,0 +1,7 @@
+$example_casting: () = {
+    // This language will let you implicitly mix certain types but you might have to explicitly cast. To do so use the cast instruction:
+    a: u64 = 45;
+    b: u8  = cast(a, u8);
+    
+    // In general you will have to explicitly cast whenever information can be lost (integer to smaller integer, real to integer, signed to unsigned).
+};

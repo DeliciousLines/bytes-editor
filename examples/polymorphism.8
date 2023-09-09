@@ -1,0 +1,109 @@
+$example_polymorphism: () = {
+    ///////////////////////////////////////////////////////////////////////////
+    // NOTE: make sure you read types.8 and sub_programs.8 before reading this.
+    ///////////////////////////////////////////////////////////////////////////
+    
+    
+    /*
+    =============================
+    **** Polymorphic structs ****
+    =============================
+    */
+    
+    // Sometimes you may want to have a struct that has a certain body but with different variations. Let us make a custom array for instance:
+    $Basic_Array: #struct = {
+        data:  @ u8;
+        count: s64;
+    };
+    
+    // What if we wanted this array to work with any type? Right now, we would have to literally make a different array type for all types we want to use it
+    // with, e.g. an array type for u8 values, an array type for String values, etc.
+    // What if instead we could specify one struct that covers all types? Well, this is where polymorphism kicks in:
+    $Polymorphic_Array: #struct ($ARRAY_SUB_TYPE: Type) = {
+        data:  @ ARRAY_SUB_TYPE; // ARRAY_SUB_TYPE will be replaced by whatever type it is set to.
+        count: s64;
+    };
+    
+    // Now we can use this array with all kinds of types:
+    u8_array:     Polymorphic_Array(u8);
+    u32_array:    Polymorphic_Array(u32);
+    string_array: Polymorphic_Array(String);
+    
+    // Note that this works for values too:
+    $Fixed_Size_Array: #struct ($T: Type, $COUNT: s64) = {
+        data:  @ T;
+        count: s64 = COUNT;
+    };
+    
+    some_array: Fixed_Size_Array(u8, 3);
+    
+    
+    // There is another kind of polymorphism you can do with structs. Let us say you want your own theme struct. When you send the theme basics to the editor
+    // it may look like this:
+    {
+        $Custom_Theme: #struct = {
+            basics: Text_Theme_Basics;
+            // ...
+        };
+        
+        our_theme: Custom_Theme;
+        
+        settings: Settings = .{
+            // ...
+            text_theme = our_theme.basics, // But what if instead we wanted to do something like 'theme = our_theme'?
+            // ...
+        };
+    }
+    // Instead, you could do the following:
+    {
+        $Custom_Theme: #struct = {
+            #as basics: Text_Theme_Basics; // Use the #as directive!
+            // ...
+        };
+        
+        our_theme: Custom_Theme;
+        
+        settings: Settings = .{
+            // ...
+            text_theme = our_theme, // Now this implicitly dereferences the 'basics' member from our custom theme struct.
+            // ...
+        };
+        
+        // Note that you can only use one #as directive per struct.
+    }
+    
+    
+    /*
+    ==================================
+    **** Polymorphic sub-programs ****
+    ==================================
+    */
+    
+    // There might be some cases where you want a sub-program to work with various types, like maths functions for instance. You can also use polymorphism
+    // within sub-programs:
+    $add: (a: ?, b: #type_of(a)) -> #type_of(a) = { // The '?' means the type of the parameter is resolved at the call site.
+        return a + b;
+    };
+    
+    a := add(0.5, 0.2); // Here the compiler makes a floating point version of the sub-program...
+    b := add(5, 10);    // And here it makes an integer version.
+    
+    
+    // Polymorphic sub-programs can also be useful for manipulating polymorphic structs. Let us go back to our custom array example and let us say we want
+    // to retrieve a value from an array:
+    $array_get: (array: Polymorphic_Array, index: s64) -> array.ARRAY_SUB_TYPE = {
+        return array.data[index];
+    };
+    
+    u32_array.data = u32.[1, 2, 3, 4, 5].data;
+    c := array_get(u32_array, 2);
+    
+    
+    // You can also use polymorphism to execute different instructions depending on a context without introducing runtime overhead:
+    $f: ($DO_IT: b8) -> u32 = {
+        #if DO_IT: return 45;
+        else:      return 0;
+    };
+    
+    d := f(false);
+};

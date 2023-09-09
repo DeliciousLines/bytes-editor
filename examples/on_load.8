@@ -1,0 +1,42 @@
+#on_load {
+    /*
+    
+    As mentioned in basics.8, this block is executed every time the custom layer is loaded/reloaded.
+    This lets you store and set settings. Main settings can be described using the Settings struct (check api.8 for reference).
+    
+    The following is a simple example of how to do so.
+    
+    */
+    
+    
+    settings := Settings.{
+        flags = .SHOW_LINE_NUMBERS,
+        
+        tokenisation_hints = .[
+            /*
+            
+            Tokenisation hints lets you specify what certain tokens look like in a specified language.
+            
+            Here for instance we are saying that in all files ending with the extension '8' SINGLE_LINE_COMMENT tokens are represented by '//',
+            MULTI_LINE_COMMENT_START tokens by '/*' and MULTI_LINE_COMMENT_END tokens by '*/'.
+            This lets you use the same token types accross different languages.
+            
+            */
+            
+            .{
+                file_extensions          = .["8"],
+                single_line_comment      = "//",
+                multi_line_comment_start = "/*",
+                multi_line_comment_end   = "*/",
+            }
+        ],
+        
+        
+        file_lister_folders_to_ignore         = .[".git"],
+        file_lister_file_extensions_to_ignore = .["exe", "dll"]
+    };
+    
+    
+    // Now that we have settings ready we need to send them to the editor.
+    set_settings(settings);
+}

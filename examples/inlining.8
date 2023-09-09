@@ -1,0 +1,60 @@
+$example_inlining: () = {
+    // Inlining lets you directly insert a sub-program code at the calling site instead of issuing a regular call instruction. This can be very useful
+    // for small sub-programs and for macros.
+    
+    /*
+    ================
+    **** Basics ****
+    ================
+    */
+    
+    $lerp: (a: f32, b: f32, f: f32) -> f32 = #inline {
+        return f * b + a * (1.0 - f);
+    };
+    
+    a := lerp(0.2, 0.8, 0.25);
+    
+    
+    /*
+    =======================================
+    **** Using inlining to make macros ****
+    =======================================
+    */
+    
+    // Here is a simple macro that defers something at the end of the scope is is inlined into:
+    $cleanup: (a: @ s32) = #inline {
+        #inline #defer: a[0] = 3;
+        
+        // Note that you can still use the regular #defer directive in which case the code would be executed at the end of the macro itself.
+    };
+    
+    // You can also capture external identifiers from within macros:
+    $change_a: () = #inline {
+        'a = 2; // This refers to the external variable 'a'.
+        a := 3; // This is a local variable 'a'.
+        a = 'a; // We set the local 'a' to the external 'a'.
+    };
+    
+    
+    /*
+    ========================
+    **** Inserting code ****
+    ========================
+    */
+    
+    // Not logically far from inlining sub-programs is inserting code. What if you have a sub-program that does lots of things but depending on the context
+    // there is always a few lines of code that need to be different? It would be annoying to have to make several version of what is mostly the same code so
+    // you could insert those lines instead:
+    
+    $f: (values: [] u32, $code_to_execute: Code) = {
+        for values {
+            // ... Do all kinds of things...
+            #insert code_to_execute; // Note that code_to_execute must be constant for the #insert directive to work.
+        }
+    };
+    
+    f(.[0, 1, 2, 3, 4], #code {
+        a := it;
+        a += it * 2;
+    });
+};

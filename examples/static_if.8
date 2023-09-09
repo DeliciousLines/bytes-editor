@@ -1,0 +1,12 @@
+$example_static_if: () = {
+    
+    // Sometimes you want to decide what code to use depending on certain factors at compile time. You can use the #if directive to do this. This is like a
+    // regular if statement except it only works with constant conditions and simply includes or excludes code in the scope it is used.
+    
+    $THIS_SHOULD_BE_A_STRING := false;
+    
+    #if THIS_SHOULD_BE_A_STRING: a := "Hello!";
+    else:                        a := +0;
+    
+    b := a;
+};
