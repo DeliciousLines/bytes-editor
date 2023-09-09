@@ -1,2 +1,7 @@
-# Bytes Editor Feedback
-Bytes is a fast, lightweight and customisable editor. You can download the beta here: https://deliciouslines.com/bytes
+Bytes is a fast, lightweight and customisable editor.
+
+# Download Beta
+https://deliciouslines.com/bytes
+
+# Feedback
+Feel free to open an issue if you want to report a bug or make a suggestion.
