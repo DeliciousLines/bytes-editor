@@ -1,4 +1,6 @@
-Bytes is a fast, lightweight and customisable editor.
+### Bytes is a fast, lightweight and customisable editor.
+
+![Bytes Logo](https://deliciouslines.com/images/bytes-logo.png)
 
 # Download Beta
 https://deliciouslines.com/bytes
@@ -6,4 +8,5 @@ https://deliciouslines.com/bytes
 # Feedback
 Feel free to open an issue if you want to report a bug or make a suggestion.
 
-# Customisation ExamplesYou can check up-to-date examples from the ``examples`` folder.
+# Customisation Examples
+You can check up-to-date examples from the ``examples`` folder.
