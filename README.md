@@ -26,7 +26,6 @@ You can check up-to-date examples from the ``examples`` folder.
 - Bytes is not currently designed to work with big files
 
 ### Roadmap to 1.0.0 (in no particular order)
-- Make a Linux port
 - Make a MacOS port
 - Fix bugs
 - Enhance the documentation
