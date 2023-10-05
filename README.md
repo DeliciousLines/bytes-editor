@@ -5,6 +5,8 @@ Bytes is a fast, lightweight and customisable editor.
 
 ### Download Beta
 [deliciouslines.com/bytes](https://deliciouslines.com/bytes)
+or
+[Github](https://github.com/DeliciousLines/bytes-editor/releases/latest)
 
 ### Feedback
 Feel free to open an issue if you want to report a bug or make a suggestion.
