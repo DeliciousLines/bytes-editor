@@ -5,6 +5,8 @@ Bytes is a fast, lightweight and customisable editor.
 
 ### Download Beta
 [deliciouslines.com/bytes](https://deliciouslines.com/bytes)
+or
+[Github](https://github.com/DeliciousLines/bytes-editor/releases/latest)
 
 ### Feedback
 Feel free to open an issue if you want to report a bug or make a suggestion.
@@ -26,7 +28,6 @@ You can check up-to-date examples from the ``examples`` folder.
 - Bytes is not currently designed to work with big files
 
 ### Roadmap to 1.0.0 (in no particular order)
-- Make a Linux port
 - Make a MacOS port
 - Fix bugs
 - Enhance the documentation
