@@ -22,7 +22,7 @@ You can check up-to-date examples from the ``examples`` folder.
 - Rendering is done on the GPU
 
 ### Limitations
-- Bytes is not an IDE and does not have built-in support for a specific language
+- Bytes is not an IDE
 - Bytes is not currently designed to work with big files
 
 ### Roadmap to 1.0.0 (in no particular order)
