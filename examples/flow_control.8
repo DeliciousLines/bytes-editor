@@ -85,7 +85,7 @@ $example_flow_control: () = {
     
     for 2, 0: a = array[it]; // Loop backwards.
     
-    for array #step 2: a += it; // Skip one item every on every iteration. 'it' is an implicit variable that refers to the item.
+    for array #step 2: a += it; // Skip one item on every iteration. 'it' is an implicit variable that refers to the item.
     
     for array #step, >= -> number, number_index {
         // Go backwards and use 'number' and 'number_index' instead of 'it' and 'it_index' to refer to an item and its index.
