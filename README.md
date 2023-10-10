@@ -1,7 +1,16 @@
-# Bytes Editor
+<h1 align="center">
+  <a href="https://deliciouslines.com/bytes" target="_blank">
+    <img width=200 height=200 src="https://deliciouslines.com/images/bytes_logo_512.png"/>
+    <br/>
+    Bytes Editor
+  </a>
+</h1>
+
 Bytes is a fast, lightweight and customisable editor.
 
-![Bytes Logo](https://deliciouslines.com/images/bytes-logo.png)
+<p align="center">
+  <img src="https://deliciouslines.com/images/bytes_screenshot.png"/>
+</p>
 
 ### Download Beta
 [deliciouslines.com/bytes](https://deliciouslines.com/bytes)
