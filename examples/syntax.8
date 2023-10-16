@@ -21,8 +21,8 @@
         
         // We do something very simple here and just highlight numbers.
         for tokens {
-            if it.type & .NUMBER: set_token_colour(it, cyan);
-            else:                 set_token_colour(it, white);
+            if it.type & .NUMBER: set_token_colour(it.index, cyan);
+            else:                 set_token_colour(it.index, white);
         }
     }
     
