@@ -23,7 +23,7 @@ $example_inlining: () = {
     
     // Here is a simple macro that defers something at the end of the scope is is inlined into:
     $cleanup: (a: @ s32) = #inline {
-        #inline #defer: a[0] = 3;
+        #defer #inline: a[0] = 3;
         
         // Note that you can still use the regular #defer directive in which case the code would be executed at the end of the macro itself.
     };
