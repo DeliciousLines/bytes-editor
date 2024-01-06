@@ -57,4 +57,32 @@ $example_inlining: () = {
         a := it;
         a += it * 2;
     });
+    
+    
+    /*
+    =======================
+    **** Argument copy ****
+    =======================
+    */
+    
+    // By default arguments are *not* copied in inline calls. If you want to change that behaviour, you can use the #copy directive:
+    $g: (#copy a: f32) = #inline {
+        a++; // This will not impact the original value.
+    };
+    
+    
+    /*
+    ===============================
+    **** Constant value macros ****
+    ===============================
+    */
+    
+    // You may want to make a macro that you can use anywhere that returns a constant value. You can do so by telling the compiler that the result value
+    // must be constant using '$->':
+    $KB: (value: s64) $-> s64 = #inline {
+        return value * 1024;
+    };
+    
+    // You can then do things like:
+    $SOME_SIZE := KB(10);
 };

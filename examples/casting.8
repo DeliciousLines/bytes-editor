@@ -3,5 +3,21 @@ $example_casting: () = {
     a: u64 = 45;
     b: u8  = cast(a, u8);
     
+    // You can also let the compiler infer the type to cast to:
+    b = cast(a);
+    
     // In general you will have to explicitly cast whenever information can be lost (integer to smaller integer, real to integer, signed to unsigned).
+    
+    
+    
+    /*
+    ==========================
+    **** Memory addresses ****
+    ==========================
+    */
+    
+    // You can freely cast back and forth between any memory address type and @ void, e.g.:
+    c: @ u8;
+    d: @ void = c;
+    c = d;
 };

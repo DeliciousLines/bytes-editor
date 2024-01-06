@@ -85,8 +85,13 @@ $example_polymorphism: () = {
         return a + b;
     };
     
+    // Note that you could also declare this sub-program like this:
+    $add2: (a: ?T, b: T) -> T = {
+        return a + b;
+    };
+    
     a := add(0.5, 0.2); // Here the compiler makes a floating point version of the sub-program...
-    b := add(5, 10);    // And here it makes an integer version.
+    b := add2(5, 10);   // And here it makes an integer version.
     
     
     // Polymorphic sub-programs can also be useful for manipulating polymorphic structs. Let us go back to our custom array example and let us say we want

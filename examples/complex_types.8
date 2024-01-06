@@ -72,6 +72,17 @@ $example_complex_types: () = {
     
     
     
+    // **** Embedded arrays ****
+    // You may want to embed data directly in a struct and access it like a C array:
+    $Embedded_Array: #struct = {
+        data: [128] u8; // This will make space for 128 items of type u8.
+    };
+    
+    some_data: Embedded_Array;
+    copy := some_data.data[2];
+    
+    
+    
     /*
     ===============
     **** Enums ****
