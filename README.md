@@ -36,6 +36,9 @@ You can check up-to-date examples from the ``examples`` folder.
 - Bytes is not an IDE
 - Bytes is not currently designed to work with big files
 
+### Beta disclaimer
+The editor being in beta, things may change, performance may have some dips here and there and bugs may creep in. All of this is being worked on to get to version `1.0`.
+
 ### Roadmap to 1.0.0 (in no particular order)
 - Make a MacOS port
 - Fix bugs
@@ -44,4 +47,5 @@ You can check up-to-date examples from the ``examples`` folder.
 - Speed-up some parts of the editor
 - Lower memory consumption
 - Output higher quality machine code
+- Stabilise the API
 - Make a hexadecimal editor?
