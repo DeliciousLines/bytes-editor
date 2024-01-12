@@ -77,6 +77,9 @@ $example_inlining: () = {
     ===============================
     */
     
+    /*
+    // DEPRECATED DEPRECATED DEPRECATED
+    
     // You may want to make a macro that you can use anywhere that returns a constant value. You can do so by telling the compiler that the result value
     // must be constant using '$->':
     $KB: (value: s64) $-> s64 = #inline {
@@ -85,4 +88,15 @@ $example_inlining: () = {
     
     // You can then do things like:
     $SOME_SIZE := KB(10);
+    
+    // DEPRECATED DEPRECATED DEPRECATED
+    */
+    
+    // Sometimes you want to use sub-programs as macros for constant values. You can ensure an inlined sub-program can be used for a constant value by using
+    // the '#constant' directive, like this:
+    $KB: (value: s64) -> s64 = #inline {
+        return value * 1024;
+    };
+    
+    $SOME_SIZE := #constant KB(10); // The value returned by KB() must be constant, as well as the arguments passed to the sub-program.
 };
