@@ -1,13 +1,15 @@
 $comment_or_uncomment_line: () = {
     cursor_offset := get_cursor_offset();
     
-    line_start := get_line_start(cursor_offset);
-    line_end   := get_line_end(cursor_offset);
+    line_start_offset := get_line_start(cursor_offset);
+    line_end_offset   := get_line_end(cursor_offset);
     
     tokens := get_tokens();
     
     
     // Get the first non-whitespace token on the line. START
+    line_start := get_token_at_offset(line_start_offset);
+    line_end   := get_token_at_offset(line_end_offset);
     token := line_start;
     
     for line_start.index, line_end.index #step, <= {
@@ -36,7 +38,7 @@ $go_to_next_underscore: () = {
         token = tokens[it];
         
         if token.type & (.WORD | .NUMBER) {
-            text := get_token_text(token);
+            text := get_token_text(token.index);
             
             for text -> c, char_index {
                 global_offset := token.offset_in_data + char_index;
