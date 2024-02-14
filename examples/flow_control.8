@@ -93,6 +93,12 @@ $example_flow_control: () = {
     }
     
     
+    // By default you access an item by value in a for loop but you can also access it by address the following way:
+    for @ array {
+        it[0] = 45;
+    }
+    
+    
     /*
     =========================
     **** defer directive ****
