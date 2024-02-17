@@ -25,7 +25,7 @@ You can check up-to-date examples from the ``examples`` folder.
 
 ### Features
 - Blazing fast
-- Lightweight and portable (download a zip file that is less than 1MB!)
+- Lightweight and portable (1MB download)
 - Built-in terminal
 - Everything is customised using a single language
 - Work directly with tokens, say good-bye to regex soup
