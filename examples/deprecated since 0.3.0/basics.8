@@ -21,17 +21,14 @@ is contained in api.8; this file is automatically injected by the compiler so th
 ================
 **** Tokens ****
 ================
-The editor has a buit-in mechanism to parse text and extract elements from it known as tokens. A token can be a number, a word, a quote, etc.
-Since version 0.3.0 the editor does *not* tokenise the whole file. It is now up to you to retrieve tokens from specific text regions.
+To help you parse text the editor preanalyses it and makes tokens out of it. You can think of a token as a chunk of text with some useful information.
+For example, consider the following text: if a == 0.5
+The editor will make a token for 'if', one token for every whitespace, one token for 'a', one for '==' and one for '0.5'.
 
-To check the types of tokens available, read the Token_Type enum in api.8
-Here is some information for selected token types:
-- Numbers: Bytes is quite loose as to how numbers are represented to cover as many cases as possible. Here are some examples: .23, 0xffa, 2.3f, 45ull
-- Miscellaneous tokens: the following are considered miscellaneous: , . ; \ @ # $ => -> :: := 
-- Math operators (this includes bitwise operators): >>>= <<<= <<= >>= ++ -- += -= *= /= %= &= |= ^= + - * / % & | ~ ^
-- Logical operators: &&= ||= === !== <== >== && || >= <= != == ! ? > <
-
-Note that token types can be overridden by tokenisation hints (for now only tokens related to comments override the rest).
+This lets you focus on bigger chunks of text instead of having to go through every character.
+Every token is given a type, like NUMBER for instance which indicates that a particular token is a number.
+Tokens can be useful in two main ways: you can easily parse text and assign a colour to every token to do syntax highlighting and you can also move the cursor
+around or insert text very easily using tokens to quickly navigate text.
 
 
 =============================

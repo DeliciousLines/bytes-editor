@@ -4,51 +4,40 @@ $comment_or_uncomment_line: () = {
     line_start_offset := get_line_start(cursor_offset);
     line_end_offset   := get_line_end(cursor_offset);
     
-    tokens := get_tokens();
+    // Get the first token on the line. START
+    first_token: Token = ?;
+    status := get_next_token(line_start_offset, @first_token);
+    if status < 0 || first_token.offset_in_data >= line_end_offset: return;
+    // Get the first token on the line. END
     
     
-    // Get the first non-whitespace token on the line. START
-    line_start := get_token_at_offset(line_start_offset);
-    line_end   := get_token_at_offset(line_end_offset);
-    token := line_start;
-    
-    for line_start.index, line_end.index #step, <= {
-        token = tokens[it];
-        if !(token.type & .WHITESPACE): break;
-    }
-    // Get the first non-whitespace token on the line. END
-    
-    
-    if !(token.type & .SINGLE_LINE_COMMENT) { // Comment this line.
+    if !(first_token.type & .SINGLE_LINE_COMMENT) { // Comment this line.
         single_line_comment := get_single_line_comment_from_tokenisation_hints();
-        insert_text_at(single_line_comment, line_start.offset_in_data);
+        insert_text_at(single_line_comment, first_token.offset_in_data);
     }
     else { // Uncomment this line.
-        delete_at(token.offset_in_data, token.count);
+        delete_at(first_token.offset_in_data, first_token.count);
     }
 };
 
 $go_to_next_underscore: () = {
-    cursor_offset := get_cursor_offset();
+    offset := get_cursor_offset();
     
-    token  := get_token_at_offset(cursor_offset);
-    tokens := get_tokens();
+    text_at_cursor := get_text_at(offset, 1);
+    if text_at_cursor == "_": offset++; // We already sit on an underscore so we start looking for one a bit further.
     
-    for token.index, tokens.count {
-        token = tokens[it];
+    while 1 {
+        token: Token = ?;
+        offset = get_next_token(offset, @token);
+        if offset < 0: return;
         
-        if token.type & (.WORD | .NUMBER) {
-            text := get_token_text(token.index);
-            
-            for text -> c, char_index {
-                global_offset := token.offset_in_data + char_index;
-                
-                if global_offset <= cursor_offset: continue;
-                
-                if c == "_" {
-                    set_cursor_offset(global_offset);
-                    return; // We found a suitable underscore, we can stop searching.
-                }
+        if !(token.type & (.WORD|.NUMBER)): continue;
+        
+        token_text := get_text_at(token.offset_in_data, token.count);
+        for token_text {
+            if it == "_" {
+                set_cursor_offset(token.offset_in_data + it_index);
+                return;
             }
         }
     }

@@ -2,11 +2,84 @@
     /*
     
     As mentioned in basics.8 this block is executed every time the editor needs to updated syntax highlighting.
-    Here you can parse a text file's tokens and set their colour.
+    The editor only highlights the text that is visible on screen. This means that you will start at a certain offset and then stop at a certain limit.
+    This also means that you may start highlighting in the middle of a multi-comment or a string. Bytes give you the necessary information for you to handle
+    these cases.
     
-    The example given here is very simple for brevity's sake. If you want a complete example you can check the default custom layer.
+    The example given here is very simple for brevity's sake. If you want a complete example you can check the default custom layer (syntax.8).
     
     */
+    
+    
+    $green := Colour.{0, 1, 0, 1};
+    
+    
+    // First you want to retrieve the offset to start from and the limit, as well as information about whether we start in the middle of a comment/string.
+    start: s64;
+    limit: s64;
+    comment_depth: s32; // If this is greater than 0 it means we are in a comment.
+    string_delimiter: Tokenisation_Hint.String_Delimiter; // If this is non-zero it means we are in a string.
+    get_syntax_highlighting_info(@start, @limit, @comment_depth, @string_delimiter);
+    
+    offset := start;
+    
+    if comment_depth > 0 {
+        // Handle a multi-line comment. START
+        comment_start := offset;
+        
+        while offset < limit {
+            token: Token = ?;
+            offset = get_next_token(offset, @token);
+            if offset < 0 {
+                offset = limit;
+                break;
+            }
+            
+            if      token.type & .MULTI_LINE_COMMENT_START: comment_depth++;
+            else if token.type & .MULTI_LINE_COMMENT_END {
+                comment_depth--;
+                if !comment_depth: break; // We reached the end of the multi-line comment.
+            }
+        }
+        
+        set_text_colour(comment_start, cast(offset - comment_start), green); // Highlight the whole comment section in green.
+        // Handle a multi-line comment. END
+    }
+    else if string_delimiter {
+        // Handle a multi-line string. START
+        string_start := offset;
+        
+        token_type_to_look_for: Token.Token_Type = cast(string_delimiter);
+        
+        next_character_is_escaped := false;
+        while offset < limit {
+            token: Token = ?;
+            offset = get_next_token(offset, @token);
+            if offset < 0 {
+                offset = limit;
+                break;
+            }
+            
+            if next_character_is_escaped {
+                next_character_is_escaped = false;
+                continue;
+            }
+            
+            if token.type & .MISC {
+                token_text := get_text_at(token.offset_in_data, token.count);
+                if token_text == "\\" { // The next character is escaped.
+                    next_character_is_escaped = true;
+                    continue;
+                }
+            }
+            
+            if token.type & token_type_to_look_for: break; // We reached the end of the string.
+        }
+        
+        set_text_colour(string_start, cast(offset - string_start), green); // Highlight the whole string in green.
+        // Handle a multi-line string. END
+    }
+    
     
     
     // First you probably want to get the file's extension to know how you want to highlight it.
@@ -16,20 +89,23 @@
     $white := Colour.{1, 1, 1, 1};
     
     if file_extension == "8" {
-        // Let us retrieve this file's tokens.
-        tokens := get_tokens();
-        
-        // We do something very simple here and just highlight numbers.
-        for tokens {
-            if it.type & .NUMBER: set_token_colour(it.index, cyan);
-            else:                 set_token_colour(it.index, white);
+        while offset < limit {
+            // Retrieve the next token.
+            token: Token = ?;
+            offset = get_next_token(offset, @token);
+            if offset < 0: break;
+            
+            // We do something very simple here and just highlight numbers.
+            if token.type & .NUMBER: set_text_colour(token.offset_in_data, token.count, cyan);
+            else:                    set_text_colour(token.offset_in_data, token.count, white);
         }
     }
     
     
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // NOTE: regarding syntax highlighting themes:
-    // Bytes does not enforce a text theme format so that people can do whatever they want when it comes to syntax highlighting. There are default themes and
-    // a default Theme struct provided for your convenience in the shipping default layer but feel free to handle syntax highlighting themes however you want.
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Bytes does not enforce a strict text theme format so that people can do whatever they want when it comes to syntax highlighting. There are default themes
+    // and a default Theme struct provided for your convenience in the shipping default layer but feel free to handle syntax highlighting themes however you
+    // want.
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }

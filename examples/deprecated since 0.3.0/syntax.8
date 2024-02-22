@@ -1,0 +1,35 @@
+#syntax {
+    /*
+    
+    As mentioned in basics.8 this block is executed every time the editor needs to updated syntax highlighting.
+    Here you can parse a text file's tokens and set their colour.
+    
+    The example given here is very simple for brevity's sake. If you want a complete example you can check the default custom layer.
+    
+    */
+    
+    
+    // First you probably want to get the file's extension to know how you want to highlight it.
+    file_extension := get_file_extension();
+    
+    $cyan  := Colour.{0, 1, 1, 1};
+    $white := Colour.{1, 1, 1, 1};
+    
+    if file_extension == "8" {
+        // Let us retrieve this file's tokens.
+        tokens := get_tokens();
+        
+        // We do something very simple here and just highlight numbers.
+        for tokens {
+            if it.type & .NUMBER: set_token_colour(it.index, cyan);
+            else:                 set_token_colour(it.index, white);
+        }
+    }
+    
+    
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // NOTE: regarding syntax highlighting themes:
+    // Bytes does not enforce a text theme format so that people can do whatever they want when it comes to syntax highlighting. There are default themes and
+    // a default Theme struct provided for your convenience in the shipping default layer but feel free to handle syntax highlighting themes however you want.
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+}
