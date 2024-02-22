@@ -98,6 +98,11 @@
             // We do something very simple here and just highlight numbers.
             if token.type & .NUMBER: set_text_colour(token.offset_in_data, token.count, cyan);
             else:                    set_text_colour(token.offset_in_data, token.count, white);
+            
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // NOTE: IMPORTANT: if you do not set the text colour for some portions of the text, the editor will try to reuse the most recent colour that
+            // was set.
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         }
     }
     
