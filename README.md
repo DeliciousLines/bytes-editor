@@ -9,7 +9,7 @@
 Bytes is a fast, lightweight and customisable editor.
 
 <p align="center">
-  <img src="https://deliciouslines.com/images/bytes_screenshot.png"/>
+  <img src="https://deliciouslines.com/images/bytes_screenshot_small.png"/>
 </p>
 
 ### Download Beta
