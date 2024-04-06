@@ -13,7 +13,7 @@ Bytes is a fast, lightweight and customisable editor.
 </p>
 
 ### Download Beta
-[deliciouslines.com/bytes](https://deliciouslines.com/bytes-editor)
+[deliciouslines.com/bytes-editor](https://deliciouslines.com/bytes-editor)
 or
 [Github](https://github.com/DeliciousLines/bytes-editor/releases/latest)
 
